@@ -2,6 +2,9 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import CadCliente from '../../CadCliente';
+
+
 
 export default function Menu(props) {
 
@@ -13,8 +16,7 @@ export default function Menu(props) {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <NavDropdown title="Cadastros" id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Clientes</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.1">Fornecedores</NavDropdown.Item>
+                            <NavDropdown.Item onClick={CadCliente}>Clientes</NavDropdown.Item>                            <NavDropdown.Item href="#action/3.1">Fornecedores</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.1">Produtos</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.1">Categorias</NavDropdown.Item>
                         </NavDropdown>

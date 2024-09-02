@@ -9,6 +9,8 @@ export default function Pagina(props) {
             {
                 props.children
             }
+
+            
         </>
     );
 }
