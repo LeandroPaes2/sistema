@@ -1,4 +1,3 @@
-import Pagina from "./componentes/layouts/Pagina";
 import TelaCliente from "./componentes/layouts/TelaCliente";
 import { render } from "@testing-library/react";
 
@@ -11,5 +10,7 @@ function CadCliente() {
     );
 
 }
+
+
 
 export default CadCliente;

@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-export default function TelaCliente(props) {
+export default function TelaFornecedor(props) {
   return (
     <Form className="container mb-3">
       <Row className="mb-3">
