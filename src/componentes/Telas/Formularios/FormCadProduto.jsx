@@ -18,12 +18,6 @@ export default function FormCadProdutos(props) {
     const [formValidado, setFormValidado] = useState(false);
 
     
-    useEffect(() => {
-        if (props.modoEdicao && props.produtoSelecionado) {
-            setProduto(props.produtoSelecionado);
-        }
-    }, [props.modoEdicao, props.produtoSelecionado]);
-
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
