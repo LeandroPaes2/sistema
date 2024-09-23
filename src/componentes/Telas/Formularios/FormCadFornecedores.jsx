@@ -6,32 +6,36 @@ import Row from 'react-bootstrap/Row';
 import { useState, useEffect } from 'react';
 
 export default function FormCadFornecedores(props){
-    const [fornecedor, setFornecedor] = useState({
-        codigo: 0,
-        nome: "",
-        endereco: "",
-        contato: "",
-        cpf: ""
-
-    });
+    const [fornecedor, setFornecedor] = useState(props.fornecedorSelecionado);
     const [formValidado, setFormValidado] = useState(false);
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (props.modoEdicao) {
-                
-                const fornecedoresAtualizados = props.listaDeFornecedores.map((item) =>
-                    item.codigo === fornecedor.codigo ? fornecedor : item
-                );
-                props.setListaDeFornecedores(fornecedoresAtualizados);
-            } else {
-                
-                props.setListaDeFornecedores([...props.listaDeFornecedores, fornecedor]);
-            }
+            if (!props.modoEdicao) {
 
-            
-            props.setExibirTabela(true);
+                //cadastrar fornecedor 
+                props.setListaDeFornecedores([...props.listaDeFornecedores, fornecedor]);
+                //exibir tabala
+                props.setExibirTabela(true);
+
+            } else {
+                props.setListaDeFornecedores(props.listaDeFornecedores.map((item) => {
+                    if (item.codigo !== fornecedor.codigo)
+                        return item
+                    else
+                        return fornecedor
+            }));
+            props.setModoEdicao(false);
+            props.setFornecedorSelecionado({
+                codigo: 0,
+                nome: "",
+                endereco: "",
+                contato: "",
+                cpf: ""
+                });
+                props.setExibirTabela(true);
+            }
         } else {
             setFormValidado(true);
         }

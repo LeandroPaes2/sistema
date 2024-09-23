@@ -1,38 +1,48 @@
 import { Button } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
 export default function FormCadClientes(props) {
-    const [cliente, setCliente] = useState({
-        codigo: 0,
-        nome: "",
-        endereco: "",
-        email: "",
-        senha: "",
-        telefone: ""
-    });
+    const [cliente, setCliente] = useState(props.clienteSelecionado);
     const [formValidado, setFormValidado] = useState(false);
 
     function manipularSubmissao(evento) {
-        evento.preventDefault();
-        evento.stopPropagation();
-
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            if (props.modoEdicao) {
-                const clientesAtualizados = props.listaDeClientes.map((item) =>
-                    item.codigo === cliente.codigo ? cliente : item
-                );
-                props.setListaDeClientes(clientesAtualizados);
-            } else {
+            
+            if (!props.modoEdicao) {
+                
                 props.setListaDeClientes([...props.listaDeClientes, cliente]);
+                props.setExibirTabela(true);
             }
-            props.setExibirTabela(true);
-        } else {
+            else{
+                props.setListaDeClientes(props.listaDeClientes.map((item) => {
+                    if (item.codigo !== cliente.codigo)
+                        return item
+                    else
+                        return cliente
+                }));
+
+                props.setModoEdicao(false);
+                props.setClienteSelecionado({
+                    codigo: 0,
+                    nome: "",
+                    endereco: "",
+                    email: "",
+                    senha: "",
+                    telefone: ""
+                });
+                props.setExibirTabela(true);
+            }
+
+        } else{
             setFormValidado(true);
         }
+        evento.preventDefault();
+        evento.stopPropagation();
     }
 
     function manipularMudanca(evento) {
@@ -136,7 +146,7 @@ export default function FormCadClientes(props) {
                     </Button>
                 </Col>
                 <Col md={{ offset: 1 }}>
-                    <Button onClick={() => props.setExibirTabela(true)}>Voltar</Button>
+                    <Button onClick={() => {props.setExibirTabela(true)}}>Voltar</Button>
                 </Col>
             </Row>
         </Form>

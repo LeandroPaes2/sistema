@@ -3,48 +3,66 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function FormCadProdutos(props) {
-    const [produto, setProduto] = useState({
-        codigo: 0,
-        descricao: "",
-        precoCusto: 0,
-        precoVenda: 0,
-        qtdEstoque: 0,
-        urlImagem: "",
-        dataValidade: ""
-    });
+    const [produto, setProduto] = useState(props.produtoSelecionado);
     const [formValidado, setFormValidado] = useState(false);
 
-    
-    function manipularSubmissao(evento) {
+    function manipularSubmissao(evento){
         const form = evento.currentTarget;
-        if (form.checkValidity()) {
-            if (props.modoEdicao) {
+        if (form.checkValidity()){
+            if (!props.modoEdicao){
                 
-                const produtosAtualizados = props.listaDeProdutos.map((item) =>
-                    item.codigo === produto.codigo ? produto : item
-                );
-                props.setListaDeProdutos(produtosAtualizados);
-            } else {
-                
+                //cadastrar o produto
                 props.setListaDeProdutos([...props.listaDeProdutos, produto]);
+                //exibir tabela com o produto incluído
+                props.setExibirTabela(true);
+            }
+            else{
+                //editar o produto
+                /*altera a ordem dos registros
+                props.setListaDeProdutos([...props.listaDeProdutos.filter(
+                    (item) => {
+                        return item.codigo !== produto.codigo;
+                    }
+                ), produto]);*/
+
+                //não altera a ordem dos registros
+                props.setListaDeProdutos(props.listaDeProdutos.map((item) => {
+                    if (item.codigo !== produto.codigo)
+                        return item
+                    else
+                        return produto
+                }));
+
+                //voltar para o modo de inclusão
+                props.setModoEdicao(false);
+                props.setProdutoSelecionado({
+                    codigo:0,
+                    descricao:"",
+                    precoCusto:0,
+                    precoVenda:0,
+                    qtdEstoque:0,
+                    urlImagem:"",
+                    dataValidade:""
+                });
+                props.setExibirTabela(true);
             }
 
-            
-            props.setExibirTabela(true);
-        } else {
+        }
+        else{
             setFormValidado(true);
         }
         evento.preventDefault();
         evento.stopPropagation();
+
     }
 
-    function manipularMudanca(evento) {
+    function manipularMudanca(evento){
         const elemento = evento.target.name;
-        const valor    = evento.target.value;
-        setProduto({ ...produto, [elemento]:valor });
+        const valor    = evento.target.value; 
+        setProduto({...produto, [elemento]:valor});
     }
 
     return (
@@ -58,8 +76,8 @@ export default function FormCadProdutos(props) {
                         id="codigo"
                         name="codigo"
                         value={produto.codigo}
+                        disabled={props.modoEdicao}
                         onChange={manipularMudanca}
-                        disabled={props.modoEdicao}  
                     />
                     <Form.Control.Feedback type='invalid'>Por favor, informe o código do produto!</Form.Control.Feedback>
                 </Form.Group>
@@ -153,7 +171,7 @@ export default function FormCadProdutos(props) {
                     <Form.Label>Válido até:</Form.Label>
                     <Form.Control
                         required
-                        type="date"
+                        type="text"
                         id="dataValidade"
                         name="dataValidade"
                         value={produto.dataValidade}
@@ -164,16 +182,15 @@ export default function FormCadProdutos(props) {
             </Row>
             <Row className='mt-2 mb-2'>
                 <Col md={1}>
-                    <Button type="submit">
-                        {props.modoEdicao ? "Atualizar" : "Confirmar"}
-                    </Button>
+                    <Button type="submit">{props.modoEdicao ? "Alterar":"Confirmar"}</Button>
                 </Col>
-                <Col md={{ offset: 1 }}>
-                <Button onClick={()=>{
+                <Col md={{offset:1}}>
+                    <Button onClick={()=>{
                         props.setExibirTabela(true);
                     }}>Voltar</Button>
                 </Col>
             </Row>
         </Form>
+
     );
 }
