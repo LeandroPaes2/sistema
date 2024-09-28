@@ -11,7 +11,8 @@ export default function TabelaFornecedores(props) {
 
     function excluirFornecedor(fornecedor) {
         if (window.confirm("Deseja realmente excluir o fornecedor " + fornecedor.nome)) {
-            props.setListaDeFornecedores(props.ListaDeFornecedores.filter(
+            props.setListaDeFornecedores(
+                props.listaDeFornecedores.filter(
                 (item) => {
                     return item.codigo !== fornecedor.codigo
                 }
@@ -41,7 +42,7 @@ export default function TabelaFornecedores(props) {
                 </thead>
                 <tbody>
                     {
-                        props.ListaDeFornecedores?.map((fornecedor) => {
+                        props.listaDeFornecedores?.map((fornecedor) => {
                             return (
                                 <tr key={fornecedor.codigo}>
                                     <td>{fornecedor.codigo}</td>
@@ -72,7 +73,7 @@ export default function TabelaFornecedores(props) {
                     }
                 </tbody>
             </Table>
-            <p>Quatidade de fornecedor cadastrados: {props.ListaDeFornecedor.length}</p>
+            <p>Quantidade de fornecedores cadastrados: {props.listaDeFornecedores.length}</p>
         </Container>
         </>
     );

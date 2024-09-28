@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Container, Form, Row, Col, Button, FloatingLabel, Spinner } from 'react-bootstrap';
+import { Container, Form, Row, Col, Button, FloatingLabel} from 'react-bootstrap';
 
 export default function FormCadCategorias(props) {
     return (
