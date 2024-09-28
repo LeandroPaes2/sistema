@@ -4,40 +4,38 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
-export default function FormCadClientes(props) {
-    const [cliente, setCliente] = useState(props.clienteSelecionado);
+export default function FormCadEntregadores(props) {
+    const [entregador, setEntregador] = useState(props.entregadorSelecionado);
     const [formValidado, setFormValidado] = useState(false);
 
     function manipularSubmissao(evento) {
         const form = evento.currentTarget;
         if (form.checkValidity()) {
-            
             if (!props.modoEdicao) {
-                
-                props.setListaDeClientes([...props.listaDeClientes, cliente]);
+                props.setListaDeEntregadores([...props.listaDeEntregadores, entregador]);
                 props.setExibirTabela(true);
-            }
-            else{
-                props.setListaDeClientes(props.listaDeClientes.map((item) => {
-                    if (item.codigo !== cliente.codigo)
-                        return item
+            } else {
+                props.setListaDeEntregadores(props.listaDeEntregadores.map((item) => {
+                    if (item.codigo !== entregador.codigo)
+                        return item;
                     else
-                        return cliente
+                        return entregador;
                 }));
 
                 props.setModoEdicao(false);
-                props.setClienteSelecionado({
+                props.setEntregadorSelecionado({
                     codigo: 0,
                     nome: "",
-                    endereco: "",
+                    cpf: "",
+                    dataNascimento: "",
+                    fotoPerfil: "",
                     email: "",
-                    senha: "",
-                    telefone: ""
+                    endereco: "",
+                    cnh: ""
                 });
                 props.setExibirTabela(true);
             }
-
-        } else{
+        } else {
             setFormValidado(true);
         }
         evento.preventDefault();
@@ -47,7 +45,7 @@ export default function FormCadClientes(props) {
     function manipularMudanca(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
-        setCliente({ ...cliente, [elemento]: valor });
+        setEntregador({ ...entregador, [elemento]: valor });
     }
 
     return (
@@ -60,11 +58,12 @@ export default function FormCadClientes(props) {
                         type="text"
                         id="codigo"
                         name="codigo"
-                        value={cliente.codigo}
+                        value={entregador.codigo}
                         onChange={manipularMudanca}
                         disabled={props.modoEdicao}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o código do cliente!</Form.Control.Feedback>
+                    
+                    <Form.Control.Feedback type="invalid">Por favor, informe o código do entregador!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
@@ -75,24 +74,51 @@ export default function FormCadClientes(props) {
                         type="text"
                         id="nome"
                         name="nome"
-                        value={cliente.nome}
+                        value={entregador.nome}
                         onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o nome do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o nome do entregador!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
                 <Form.Group as={Col} md="4">
-                    <Form.Label>Endereço</Form.Label>
+                    <Form.Label>CPF</Form.Label>
                     <Form.Control
                         required
                         type="text"
-                        id="endereco"
-                        name="endereco"
-                        value={cliente.endereco}
+                        id="cpf"
+                        name="cpf"
+                        value={entregador.cpf}
                         onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o endereço do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o CPF do entregador!</Form.Control.Feedback>
+                </Form.Group>
+            </Row>
+            <Row className="mb-4">
+                <Form.Group as={Col} md="4">
+                    <Form.Label>Data de Nascimento</Form.Label>
+                    <Form.Control
+                        required
+                        type="date"
+                        id="dataNascimento"
+                        name="dataNascimento"
+                        value={entregador.dataNascimento}
+                        onChange={manipularMudanca}
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe a data de nascimento do entregador!</Form.Control.Feedback>
+                </Form.Group>
+            </Row>
+            <Row className="mb-4">
+                <Form.Group as={Col} md="4">
+                    <Form.Label>Foto de Perfil</Form.Label>
+                    <Form.Control
+                        required
+                        type="file"
+                        id="fotoPerfil"
+                        name="fotoPerfil"
+                        onChange={(e) => setEntregador({ ...entregador, fotoPerfil: e.target.files[0] })}
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, escolha uma foto de perfil!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
@@ -103,38 +129,38 @@ export default function FormCadClientes(props) {
                         type="email"
                         id="email"
                         name="email"
-                        value={cliente.email}
+                        value={entregador.email}
                         onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o email do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o email do entregador!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
                 <Form.Group as={Col} md="4">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control
-                        required
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        value={cliente.senha}
-                        onChange={manipularMudanca}
-                    />
-                    <Form.Control.Feedback type="invalid">Por favor, informe a senha do cliente!</Form.Control.Feedback>
-                </Form.Group>
-            </Row>
-            <Row className="mb-4">
-                <Form.Group as={Col} md="4">
-                    <Form.Label>Telefone</Form.Label>
+                    <Form.Label>Endereço</Form.Label>
                     <Form.Control
                         required
                         type="text"
-                        id="telefone"
-                        name="telefone"
-                        value={cliente.telefone}
+                        id="endereco"
+                        name="endereco"
+                        value={entregador.endereco}
                         onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o telefone do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o endereço do entregador!</Form.Control.Feedback>
+                </Form.Group>
+            </Row>
+            <Row className="mb-4">
+                <Form.Group as={Col} md="4">
+                    <Form.Label>CNH</Form.Label>
+                    <Form.Control
+                        required
+                        type="text"
+                        id="cnh"
+                        name="cnh"
+                        value={entregador.cnh}
+                        onChange={manipularMudanca}
+                    />
+                    <Form.Control.Feedback type="invalid">Por favor, informe o número da CNH do entregador!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className='mt-2 mb-2'>

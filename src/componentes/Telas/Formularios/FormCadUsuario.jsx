@@ -1,11 +1,12 @@
+
 import { Button } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import { useState } from 'react';
 
-export default function FormCadClientes(props) {
-    const [cliente, setCliente] = useState(props.clienteSelecionado);
+export default function FormCadUsuario(props) {
+    const [usuario, setUsuario] = useState(props.usuarioSelecionado);
     const [formValidado, setFormValidado] = useState(false);
 
     function manipularSubmissao(evento) {
@@ -14,22 +15,21 @@ export default function FormCadClientes(props) {
             
             if (!props.modoEdicao) {
                 
-                props.setListaDeClientes([...props.listaDeClientes, cliente]);
+                props.setListaDeUsuarios([...props.listaDeUsuarios, usuario]);
                 props.setExibirTabela(true);
             }
             else{
-                props.setListaDeClientes(props.listaDeClientes.map((item) => {
-                    if (item.codigo !== cliente.codigo)
+                props.setListaDeUsuarios(props.listaDeUsuarios.map((item) => {
+                    if (item.codigo !== usuario.codigo)
                         return item
                     else
-                        return cliente
+                        return usuario
                 }));
 
                 props.setModoEdicao(false);
-                props.setClienteSelecionado({
+                props.setUsuarioSelecionado({
                     codigo: 0,
                     nome: "",
-                    endereco: "",
                     email: "",
                     senha: "",
                     telefone: ""
@@ -47,7 +47,7 @@ export default function FormCadClientes(props) {
     function manipularMudanca(evento) {
         const elemento = evento.target.name;
         const valor = evento.target.value;
-        setCliente({ ...cliente, [elemento]: valor });
+        setUsuario({ ...usuario, [elemento]: valor });
     }
 
     return (
@@ -60,11 +60,11 @@ export default function FormCadClientes(props) {
                         type="text"
                         id="codigo"
                         name="codigo"
-                        value={cliente.codigo}
+                        value={usuario.codigo}
                         onChange={manipularMudanca}
                         disabled={props.modoEdicao}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o código do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o código do usuario!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
@@ -75,24 +75,10 @@ export default function FormCadClientes(props) {
                         type="text"
                         id="nome"
                         name="nome"
-                        value={cliente.nome}
+                        value={usuario.nome}
                         onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o nome do cliente!</Form.Control.Feedback>
-                </Form.Group>
-            </Row>
-            <Row className="mb-4">
-                <Form.Group as={Col} md="4">
-                    <Form.Label>Endereço</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        id="endereco"
-                        name="endereco"
-                        value={cliente.endereco}
-                        onChange={manipularMudanca}
-                    />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o endereço do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o nome do usuario!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
@@ -103,10 +89,10 @@ export default function FormCadClientes(props) {
                         type="email"
                         id="email"
                         name="email"
-                        value={cliente.email}
+                        value={usuario.email}
                         onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o email do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o email do usuario!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
@@ -117,10 +103,10 @@ export default function FormCadClientes(props) {
                         type="password"
                         id="senha"
                         name="senha"
-                        value={cliente.senha}
+                        value={usuario.senha}
                         onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe a senha do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe a senha do usuario!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
             <Row className="mb-4">
@@ -131,12 +117,28 @@ export default function FormCadClientes(props) {
                         type="text"
                         id="telefone"
                         name="telefone"
-                        value={cliente.telefone}
+                        value={usuario.telefone}
                         onChange={manipularMudanca}
                     />
-                    <Form.Control.Feedback type="invalid">Por favor, informe o telefone do cliente!</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid">Por favor, informe o telefone do usuario!</Form.Control.Feedback>
                 </Form.Group>
             </Row>
+            <Row className="mb-4">
+                <Form.Group as={Col} md="4">
+                    
+                    <Form.Check
+                        required
+                        id="politicaPrivacidade"
+                        name="politicaPrivacidade"
+                        checked={usuario.politicaPrivacidade}
+                        onChange={manipularMudanca}
+                        label="Eu aceito a Política de Privacidade"
+                        feedback="Você deve aceitar a Política de Privacidade para continuar!"
+                        feedbackType="invalid"
+                    />
+                </Form.Group>
+            </Row>
+
             <Row className='mt-2 mb-2'>
                 <Col md={1}>
                     <Button type="submit">
