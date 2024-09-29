@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Trabalho1Bimestre/static/css/main.d221dc40.css",
+    "main.js": "/Trabalho1Bimestre/static/js/main.a529fb24.js",
+    "static/media/pagina404.png": "/Trabalho1Bimestre/static/media/pagina404.4bf0805d8d55a31c5142.png",
+    "index.html": "/Trabalho1Bimestre/index.html",
+    "main.d221dc40.css.map": "/Trabalho1Bimestre/static/css/main.d221dc40.css.map",
+    "main.a529fb24.js.map": "/Trabalho1Bimestre/static/js/main.a529fb24.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d221dc40.css",
+    "static/js/main.a529fb24.js"
+  ]
+}
